@@ -1,12 +1,30 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 import todo from "../images/todo.png";
 
 const Todo = () => {
+
+  
+
+
   const [inputData, setInputData] = useState("");
   const [items, setItems] = useState([]);
   const [toggle, setToggle] = useState(true); //to change the + button to update button
   const [isEdit, setIsEdit] = useState(null); //to get the index value for edt button
+
+  // api call for todo list
+  const getTodoData = async () =>{
+    const res = await fetch('https://jsonplaceholder.typicode.com/todos');
+    const todoData = await res.json();
+    setItems(todoData);
+    console.log(todoData)
+  }
+
+  useEffect(() => {
+    getTodoData();
+    
+  },[])
 
   // add items
   const addItems = () => {
@@ -18,7 +36,7 @@ const Todo = () => {
           if (ele.id === isEdit) {
             return {
               ...ele,
-              name: inputData,
+              title: inputData,
             };
           }
           return ele;
@@ -30,9 +48,10 @@ const Todo = () => {
     } else {
       const allInputData = {
         id: new Date().getTime().toString(),
-        name: inputData,
+        title: inputData,
       };
-      setItems([...items, allInputData]);
+      // setItems([...items, allInputData]);
+      setItems([allInputData, ...items]);
       setInputData("");
     }
   };
@@ -51,7 +70,7 @@ const Todo = () => {
       return ele.id === index;
     });
     setToggle(false);
-    setInputData(newEditItem.name);
+    setInputData(newEditItem.title);
     setIsEdit(index);
     console.log(newEditItem);
   };
@@ -96,7 +115,7 @@ const Todo = () => {
             {items.map((ele) => {
               return (
                 <div className="eachItem" key={ele.id}>
-                  <h3>{ele.name}</h3>
+                  <h3>{ele.title}</h3>
                   <div className="todo-btn">
                     <i
                       className="fa fa-edit add-btn"
