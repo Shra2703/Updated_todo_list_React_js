@@ -5,9 +5,10 @@ import todo from "../images/todo.png";
 const Todo = () => {
   const [inputData, setInputData] = useState("");
   const [items, setItems] = useState([]);
-  const [toggle, setToggle] = useState(true);
-  const [isEdit, setIsEdit] = useState(null);
+  const [toggle, setToggle] = useState(true); //to change the + button to update button
+  const [isEdit, setIsEdit] = useState(null); //to get the index value for edt button
 
+  // add items
   const addItems = () => {
     if (!inputData || inputData === " ") {
       alert("Sorry!! Can't add");
@@ -35,12 +36,16 @@ const Todo = () => {
       setInputData("");
     }
   };
+
+  // delete item
   const deleteItems = (index) => {
     const updatedItems = items.filter((ele) => {
       return ele.id !== index;
     });
     setItems(updatedItems);
   };
+
+  // edit items
   const editItems = (index) => {
     let newEditItem = items.find((ele) => {
       return ele.id === index;
@@ -55,10 +60,13 @@ const Todo = () => {
     <>
       <div className="main-div">
         <div className="child-div">
+          {/* image of todo list */}
           <figure>
             <img src={todo} alt=" todoIcon" />
             <figcaption>Add Your List Item 🎅</figcaption>
           </figure>
+
+          {/* Input field to add items */}
           <div className="addItems">
             <input
               type="text"
@@ -66,6 +74,7 @@ const Todo = () => {
               value={inputData}
               onChange={(e) => setInputData(e.target.value)}
             />
+
             {toggle ? (
               <i
                 className="fa fa-plus add-btn"
@@ -80,6 +89,9 @@ const Todo = () => {
               ></i>
             )}
           </div>
+          {/* End of Input field to add items */}
+
+          {/* Items added */}
           <div className="showItems">
             {items.map((ele) => {
               return (
@@ -105,8 +117,11 @@ const Todo = () => {
               );
             })}
           </div>
+          {/* end of items added */}
         </div>
+        {/* end of child div */}
       </div>
+      {/* end of main div */}
     </>
   );
 };
