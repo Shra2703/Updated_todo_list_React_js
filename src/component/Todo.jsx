@@ -13,7 +13,12 @@ const Todo = () => {
       setInputData(" ");
     }
   };
-  const deleteItems = (id) => {};
+  const deleteItems = (id) => {
+    const updatedItems = items.filter((ele, index) =>{
+      return id !== index;
+    });
+    setItems(updatedItems);
+  };
 
   return (
     <>
